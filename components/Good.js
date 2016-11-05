@@ -13,10 +13,9 @@ const styles = {
   }
 };
 
-const Goods = ({id, name, time, navigator, timeAddition, pos}) => (
+const Goods = ({id, name, time, navigator, timeAddition, pos, dis}) => (
   <ListItem onClick={() => {
-    // actions.selectGood(id);
-    navigator.pushPage({component: GoodDetailPage});
+    navigator.pushPage({component: GoodDetailPage, id, key: id});
   } } tappable>
     <div className='left'>
       <img src='http://pic.pimg.tw/taweidavid/bf312f6ae4ae8eac20e5306d8bdf2875.jpg' style={styles.thumbnail} />
@@ -39,8 +38,8 @@ const Goods = ({id, name, time, navigator, timeAddition, pos}) => (
         right: '10px',
         top: '12px',
         fontSize: 'small',
-        color: '#ff93af'
-      }}>300m</span>
+        color: '#FF3C6A'
+      }}>{dis}</span>
     </div>
   </ListItem>
 );

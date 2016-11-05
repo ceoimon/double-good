@@ -10,7 +10,7 @@ import {
 import MainPage from './MainPage';
 
 const renderPage = (route, navigator) => (
-  <route.component key={route.key} navigator={navigator} />
+  <route.component key={route.key} id={route.id} navigator={navigator} />
 );
 
 class IndexPage extends React.Component {

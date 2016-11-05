@@ -32,21 +32,23 @@ const styles = {
 };
 
 const Filter = () => (
-  <div className='mainpage__filter' style={{
-    display: 'flex',
-    justifyContent: 'space-between',
-    marginTop: '180px',
-    borderBottom: '1px solid rgb(255, 245, 245)'
-  }}>
-    <div style={styles.buttonWrapper}><Button style={styles.button}>默认 <Icon icon='fa-angle-down' /></Button></div>
-    <div style={styles.buttonWrapper}><Button style={styles.button}>全部商圈 <Icon icon='fa-angle-down' /></Button></div>
-    <div style={styles.buttonWrapper}><Button style={styles.button}>智能排序 <Icon icon='fa-angle-down' /></Button></div>
+  <div className='mainpage__filter'>
+    <div style={{
+      display: 'flex',
+      justifyContent: 'space-between',
+      marginTop: '180px',
+      borderBottom: '1px solid rgb(255, 245, 245)'
+    }}>
+      <div style={styles.buttonWrapper}><Button style={styles.button}>默认 <Icon icon='fa-angle-down' /></Button></div>
+      <div style={styles.buttonWrapper}><Button style={styles.button}>全部商圈 <Icon icon='fa-angle-down' /></Button></div>
+      <div style={styles.buttonWrapper}><Button style={styles.button}>智能排序 <Icon icon='fa-angle-down' /></Button></div>
+    </div>
   </div>
 );
 
 const MainPage = ({navigator}) => {
   return (
-    <Page style={{overflow: 'visible'}} renderToolbar={() => <NavBar isHome={true} navigator={navigator} isNav={true} />}>
+    <Page style={{overflow: 'visible'}}>
       <NavBar isHome={true} navigator={navigator} isNav={false} />
       <img src='https://scontent.xx.fbcdn.net/t31.0-8/10272602_872284742853144_5892743973248502447_o.jpg' style={styles.cover} />
       <div style={{
@@ -61,6 +63,6 @@ const MainPage = ({navigator}) => {
       <GoodList navigator={navigator} />
     </Page>
   );
-}
+};
 
 export default MainPage;
