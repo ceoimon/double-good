@@ -38,11 +38,11 @@ const styles = {
 };
 
 const fakeData = [[
-  'images/carousel01.jpg',
-  'images/carousel02.jpg',
-  'images/carousel03.jpg',
-  'images/carousel05.jpg',
-  'images/carousel04.jpg'
+  'images/f01.jpg',
+  'images/f02.jpg',
+  'images/f04.jpg',
+  'images/f03.jpg',
+  'images/f05.jpg'
 ], [
   'images/carousel02.jpg',
   'images/carousel01.jpg',
@@ -183,7 +183,7 @@ const QRcode = ({id = 1, closeClick}) => (
   <div className='gdp__qrcode__container'>
     <div className='gdp__qrcode__centre'>
       <p className='little-title'>微信扫一扫</p>
-      <p className='slogan'>关注{goods[id - 1].person}的微信群，支持他自助</p>
+      <p className='slogan'>关注{goods[id - 1].person}的微信群，支持他/她自助</p>
       <img src={goods[id - 1].qrcode} alt='无法显示二维码' />
     </div>
     <button className='gdp__qrcode__confirm' onClick={closeClick}>知道啦</button>
