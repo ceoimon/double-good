@@ -182,8 +182,8 @@ class Comments extends React.Component {
 const QRcode = ({id = 1, closeClick}) => (
   <div className='gdp__qrcode__container'>
     <div className='gdp__qrcode__centre'>
-      <p className='little-title'>微信扫一扫</p>
-      <p className='slogan'>关注{goods[id - 1].person}的微信群，支持他/她自助</p>
+      <p className='little-title'>微信长按扫码</p>
+      <p className='slogan'>加入{goods[id - 1].person}粉丝群，一起帮助{goods[id - 1].person}！</p>
       <img src={goods[id - 1].qrcode} alt='无法显示二维码' />
     </div>
     <button className='gdp__qrcode__confirm' onClick={closeClick}>知道啦</button>
