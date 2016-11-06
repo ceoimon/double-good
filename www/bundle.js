@@ -52640,7 +52640,7 @@
 	  }
 	};
 	
-	var fakeData = [['images/f01.jpg', 'images/f02.jpg', 'images/f04.jpg', 'images/f03.jpg', 'images/f05.jpg'], ['images/carousel02.jpg', 'images/carousel01.jpg', 'images/carousel03.jpg', 'images/carousel04.jpg', 'images/carousel05.jpg'], ['images/carousel03.jpg', 'images/carousel05.jpg', 'images/carousel01.jpg', 'images/carousel02.jpg', 'images/carousel04.jpg'], ['images/carousel02.jpg', 'images/carousel04.jpg', 'images/carousel01.jpg', 'images/carousel03.jpg', 'images/carousel05.jpg']];
+	var fakeData = [['images/f01.jpg', 'images/f02.jpeg', 'images/f04.jpg', 'images/f03.jpg', 'images/f05.jpg'], ['images/carousel02.jpg', 'images/carousel01.jpg', 'images/carousel03.jpg', 'images/carousel04.jpg', 'images/carousel05.jpg'], ['images/carousel03.jpg', 'images/carousel05.jpg', 'images/carousel01.jpg', 'images/carousel02.jpg', 'images/carousel04.jpg'], ['images/carousel02.jpg', 'images/carousel04.jpg', 'images/carousel01.jpg', 'images/carousel03.jpg', 'images/carousel05.jpg']];
 	
 	var TheCarousel = function (_React$Component) {
 	  _inherits(TheCarousel, _React$Component);

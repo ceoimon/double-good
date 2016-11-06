@@ -39,7 +39,7 @@ const styles = {
 
 const fakeData = [[
   'images/f01.jpg',
-  'images/f02.jpg',
+  'images/f02.jpeg',
   'images/f04.jpg',
   'images/f03.jpg',
   'images/f05.jpg'
