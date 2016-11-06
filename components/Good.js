@@ -13,12 +13,12 @@ const styles = {
   }
 };
 
-const Goods = ({id, name, time, navigator, timeAddition, pos, dis}) => (
+const Goods = ({thumbnail, id, name, time, navigator, timeAddition, pos, dis}) => (
   <ListItem onClick={() => {
     navigator.pushPage({component: GoodDetailPage, id, key: id});
   } } tappable>
     <div className='left'>
-      <img src='http://pic.pimg.tw/taweidavid/bf312f6ae4ae8eac20e5306d8bdf2875.jpg' style={styles.thumbnail} />
+      <img src={thumbnail} style={styles.thumbnail} />
     </div>
     <div className='center' style={styles.noUndeline}>
       <div className='list__item__title'>

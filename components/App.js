@@ -21,11 +21,11 @@ class IndexPage extends React.Component {
         tab: <Tab label='首页' icon='md-home' />
       },
       {
-        content: <MainPage navigator={this.props.navigator} />,
+        content: null,
         tab: <Tab label='发现' icon='md-compass' />
       },
       {
-        content: <MainPage navigator={this.props.navigator} />,
+        content: null,
         tab: <Tab label='我的' icon='md-account' />
       }
     ];
@@ -35,6 +35,10 @@ class IndexPage extends React.Component {
     return (
       <Page>
         <Tabbar
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
           initialIndex={0}
           renderTabs={this.renderTabs.bind(this)}
         />

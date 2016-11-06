@@ -50,7 +50,7 @@ const MainPage = ({navigator}) => {
   return (
     <Page style={{overflow: 'visible'}}>
       <NavBar isHome={true} navigator={navigator} isNav={false} />
-      <img src='https://scontent.xx.fbcdn.net/t31.0-8/10272602_872284742853144_5892743973248502447_o.jpg' style={styles.cover} />
+      <img src='images/luodagor.jpg' style={styles.cover} />
       <div style={{
         position: 'absolute',
         top: '50px',

@@ -38,29 +38,29 @@ const styles = {
 };
 
 const fakeData = [[
-  'http://pic.pimg.tw/basara/normal_1180097611.jpg',
-  'http://pic.pimg.tw/nell0227/4ae8461e65d63.jpg',
-  'http://pic.pimg.tw/susan6262/1383043482-2110870471.jpg',
-  'http://pic.pimg.tw/lswdavid/1180493409.jpg',
-  'http://pic.pimg.tw/nell0227/normal_4ae84624de44c.jpg'
+  'images/carousel01.jpg',
+  'images/carousel02.jpg',
+  'images/carousel03.jpg',
+  'images/carousel05.jpg',
+  'images/carousel04.jpg'
 ], [
-  'http://pic.pimg.tw/nell0227/4ae8461e65d63.jpg',
-  'http://pic.pimg.tw/basara/normal_1180097611.jpg',
-  'http://pic.pimg.tw/susan6262/1383043482-2110870471.jpg',
-  'http://pic.pimg.tw/nell0227/normal_4ae84624de44c.jpg',
-  'http://pic.pimg.tw/lswdavid/1180493409.jpg'
+  'images/carousel02.jpg',
+  'images/carousel01.jpg',
+  'images/carousel03.jpg',
+  'images/carousel04.jpg',
+  'images/carousel05.jpg'
 ], [
-  'http://pic.pimg.tw/susan6262/1383043482-2110870471.jpg',
-  'http://pic.pimg.tw/basara/normal_1180097611.jpg',
-  'http://pic.pimg.tw/lswdavid/1180493409.jpg',
-  'http://pic.pimg.tw/nell0227/4ae8461e65d63.jpg',
-  'http://pic.pimg.tw/nell0227/normal_4ae84624de44c.jpg'
+  'images/carousel03.jpg',
+  'images/carousel05.jpg',
+  'images/carousel01.jpg',
+  'images/carousel02.jpg',
+  'images/carousel04.jpg'
 ], [
-  'http://pic.pimg.tw/nell0227/4ae8461e65d63.jpg',
-  'http://pic.pimg.tw/nell0227/normal_4ae84624de44c.jpg',
-  'http://pic.pimg.tw/susan6262/1383043482-2110870471.jpg',
-  'http://pic.pimg.tw/basara/normal_1180097611.jpg',
-  'http://pic.pimg.tw/lswdavid/1180493409.jpg'
+  'images/carousel02.jpg',
+  'images/carousel04.jpg',
+  'images/carousel01.jpg',
+  'images/carousel03.jpg',
+  'images/carousel05.jpg'
 ]];
 
 class TheCarousel extends React.Component {
@@ -108,7 +108,9 @@ class TheCarousel extends React.Component {
 }
 
 const BasicInfo = ({navigator, id = 1}) => (
-  <div className='gdp__basicinfo__container'>
+  <div onClick={() => {
+    navigator.pushPage({component: MapPage, id, key: id * 1024});
+  }} className='gdp__basicinfo__container'>
     <h3 className='gdp__basicinfo__title'>{goods[id - 1].name}</h3>
     <p><Icon icon='fa-clock-o' />&nbsp;{goods[id - 1].time}{goods[id - 1].timeAddition ? ` ${goods[id - 1].timeAddition}` : null}</p>
     <p><Icon icon='fa-map-marker' style={{
@@ -221,7 +223,7 @@ class FuncTab extends React.Component {
               <div className='tab-bar__icon'>
                 <ons-icon icon='md-assignment-check' className='ons-icon zmdi zmdi-assignment-check'></ons-icon>
               </div>
-              <div className='tab-bar__label'>打卡</div>
+              <div className='tab-bar__label'>关注</div>
             </button>
           </div>
           <div label='写留言' icon='md-comment' className='tab-bar__item active'>
@@ -237,8 +239,7 @@ class FuncTab extends React.Component {
         <div onClick={e => {
           e.preventDefault();
           e.stopPropagation();
-        }
-        } className={`gdp__funcbar__mask ${this.state.isOpen ? 'show' : 'hide'}`} ></div>
+        }} className={`gdp__funcbar__mask ${this.state.isOpen ? 'show' : 'hide'}`} ></div>
         {
           this.state.isOpen ? <QRcode id={id} closeClick={this.handleClose.bind(this)} /> : null
         }

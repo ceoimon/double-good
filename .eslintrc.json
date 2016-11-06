@@ -145,6 +145,7 @@
     "promise/param-names": 2
   },
   "globals": {
-    "CustomElements": false
+    "CustomElements": false,
+    "qq": true
   }
 }
