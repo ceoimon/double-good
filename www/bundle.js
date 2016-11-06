@@ -20616,10 +20616,10 @@
 	        content: _react2.default.createElement(_MainPage2.default, { navigator: this.props.navigator }),
 	        tab: _react2.default.createElement(_reactOnsenui.Tab, { label: '\u9996\u9875', icon: 'md-home' })
 	      }, {
-	        content: _react2.default.createElement(_MainPage2.default, { navigator: this.props.navigator }),
+	        content: null,
 	        tab: _react2.default.createElement(_reactOnsenui.Tab, { label: '\u53D1\u73B0', icon: 'md-compass' })
 	      }, {
-	        content: _react2.default.createElement(_MainPage2.default, { navigator: this.props.navigator }),
+	        content: null,
 	        tab: _react2.default.createElement(_reactOnsenui.Tab, { label: '\u6211\u7684', icon: 'md-account' })
 	      }];
 	    }
@@ -20630,6 +20630,10 @@
 	        _reactOnsenui.Page,
 	        null,
 	        _react2.default.createElement(_reactOnsenui.Tabbar, {
+	          onClick: function onClick(e) {
+	            e.preventDefault();
+	            e.stopPropagation();
+	          },
 	          initialIndex: 0,
 	          renderTabs: this.renderTabs.bind(this)
 	        })
@@ -52706,7 +52710,9 @@
 	      id = _ref$id === undefined ? 1 : _ref$id;
 	  return _react2.default.createElement(
 	    'div',
-	    { className: 'gdp__basicinfo__container' },
+	    { onClick: function onClick() {
+	        navigator.pushPage({ component: _MapPage2.default, id: id, key: id * 1024 });
+	      }, className: 'gdp__basicinfo__container' },
 	    _react2.default.createElement(
 	      'h3',
 	      { className: 'gdp__basicinfo__title' },
@@ -52955,7 +52961,7 @@
 	              _react2.default.createElement(
 	                'div',
 	                { className: 'tab-bar__label' },
-	                '\u6253\u5361'
+	                '\u5173\u6CE8'
 	              )
 	            )
 	          ),
@@ -53174,11 +53180,171 @@
 	  _createClass(MainPage, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      var map = new qq.maps.Map(this.map, { // eslint-disable-line
-	        // 地图的中心地理坐标。
-	        center: new qq.maps.LatLng(39.916527, 116.397128), // eslint-disable-line
+	      var _props$id = this.props.id,
+	          id = _props$id === undefined ? 1 : _props$id;
+	
+	      var startMarker = void 0;
+	      var endMarker = void 0;
+	      var transferPlans = void 0;
+	      var stationMarkers = [];
+	      var transferLines = [];
+	      var walkLines = [];
+	
+	      var map = new qq.maps.Map(this.map, {
+	        center: new qq.maps.LatLng(23.115260, 113.322240),
 	        zoom: 8
 	      });
+	
+	      function showPosition(_ref2) {
+	        var lat = _ref2.lat,
+	            lng = _ref2.lng;
+	
+	        map.panTo(new qq.maps.LatLng(lat, lng));
+	        renderPath(new qq.maps.LatLng(lat, lng), new qq.maps.LatLng(_data.goods[id - 1].geo.lat, _data.goods[id - 1].geo.lng));
+	      }
+	
+	      function showErr() {
+	        var destPosition = new qq.maps.LatLng(_data.goods[id - 1].geo.lat, _data.goods[id - 1].geo.lng);
+	        map.panTo(destPosition);
+	        var anchor = new qq.maps.Point(6, 6);
+	        var size = new qq.maps.Size(24, 36);
+	        var endIcon = new qq.maps.MarkerImage('images/busmarker.png', size, new qq.maps.Point(24, 0), anchor);
+	        endMarker && endMarker.setMap(null);
+	        endMarker = new qq.maps.Marker({
+	          icon: endIcon,
+	          position: destPosition,
+	          map: map,
+	          zIndex: 1
+	        });
+	      }
+	
+	      function renderPath(start, end) {
+	        var transferService = new qq.maps.TransferService({
+	          location: '广州',
+	          complete: function complete(result) {
+	            result = result.detail;
+	            var start = result.start;
+	            var end = result.end;
+	            var anchor = new qq.maps.Point(6, 6);
+	            var size = new qq.maps.Size(24, 36);
+	            var startIcon = new qq.maps.MarkerImage('images/busmarker.png', size);
+	            var endIcon = new qq.maps.MarkerImage('images/busmarker.png', size, new qq.maps.Point(24, 0), anchor);
+	
+	            startMarker && startMarker.setMap(null);
+	            endMarker && endMarker.setMap(null);
+	            // 添加标记
+	            startMarker = new qq.maps.Marker({
+	              icon: startIcon,
+	              position: start.latLng,
+	              map: map,
+	              zIndex: 1
+	            });
+	            // 创建结束标记
+	            endMarker = new qq.maps.Marker({
+	              icon: endIcon,
+	              position: end.latLng,
+	              map: map,
+	              zIndex: 1
+	            });
+	
+	            transferPlans = result.plans;
+	            var plansDesc = [];
+	            transferPlans.forEach(function (plan, i) {
+	              var pAttributes = ['onclick="renderPlan(' + i + ')"', 'onmouseover=this.style.background="#eee"', 'onmouseout=this.style.background="#fff"', 'style="margin-top:-4px;cursor:pointer"'].join(' ');
+	
+	              plansDesc.push('<p ' + pAttributes + '><b>\u65B9\u6848' + (i + 1) + '.</b>');
+	              var actions = transferPlans[i].actions;
+	              actions.forEach(function (action, i) {
+	                var imgPosition = void 0;
+	                switch (action.type) {
+	                  case qq.maps.TransferActionType.BUS:
+	                    imgPosition = '-38px 0px';
+	                    break;
+	                  case qq.maps.TransferActionType.SUBWAY:
+	                    imgPosition = '-57px 0px';
+	                    break;
+	                  case qq.maps.TransferActionType.WALK:
+	                    imgPosition = '-76 0px';
+	                    break;
+	                }
+	                var actionImg = '\n                <span style="margin-bottom: -4px; display:inline-block;background:url(img/busicon.png) no-repeat ' + imgPosition + ';width:19px;height:19px">\n                </span>&nbsp;&nbsp;\n              ';
+	                plansDesc.push(actionImg + action.instructions);
+	              });
+	            });
+	            // document.getElementById('plans').innerHTML=plans_desc.join('<br><br>');
+	
+	            // 渲染到地图上
+	            renderPlan(0); // eslint-disable-line no-undef
+	          }
+	        });
+	        transferService.search(start, end);
+	        transferService.setPolicy(qq.maps.TransferPolicy['LEAST_TIME']);
+	      }
+	
+	      // 清除地图上的marker
+	      function clearOverlay(overlays) {
+	        while (overlays.length > 0) {
+	          var overlay = overlays.pop();
+	          overlay.setMap(null);
+	        }
+	      }
+	
+	      function renderPlan(index) {
+	        var plan = transferPlans[index];
+	        var lines = plan.lines;
+	        var walks = plan.walks;
+	        var stations = plan.stations;
+	        map.fitBounds(plan.bounds);
+	
+	        // clear overlays;
+	        clearOverlay(stationMarkers);
+	        clearOverlay(transferLines);
+	        clearOverlay(walkLines);
+	        var anchor = new qq.maps.Point(6, 6);
+	        var size = new qq.maps.Size(24, 36);
+	        var busIcon = new qq.maps.MarkerImage('img/busmarker.png', size, new qq.maps.Point(48, 0), anchor);
+	        var subwayIcon = new qq.maps.MarkerImage('img/busmarker.png', size, new qq.maps.Point(72, 0), anchor);
+	
+	        stations.forEach(function (station) {
+	          var station_icon = void 0;
+	          if (station.type === qq.maps.PoiType.SUBWAY_STATION) {
+	            station_icon = subwayIcon;
+	          } else {
+	            station_icon = busIcon;
+	          }
+	
+	          var stationMarker = new qq.maps.Marker({
+	            icon: station_icon,
+	            position: station.latLng,
+	            map: map,
+	            zIndex: 0
+	          });
+	          stationMarkers.push(stationMarker);
+	        });
+	
+	        lines.forEach(function (line) {
+	          var polyline = new qq.maps.Polyline({
+	            path: line.path,
+	            strokeColor: '#3893F9',
+	            strokeWeight: 6,
+	            map: map
+	          });
+	          transferLines.push(polyline);
+	        });
+	
+	        walks.forEach(function (walk) {
+	          var polyline = new qq.maps.Polyline({
+	            path: walk.path,
+	            strokeColor: '#3FD2A3',
+	            strokeWeight: 6,
+	            map: map
+	          });
+	          walkLines.push(polyline);
+	        });
+	      }
+	
+	      var geolocation = new qq.maps.Geolocation('OXXBZ-YNSHI-H3BGX-5XUJT-HOGIE-5KBYL', 'DoubleGood'); // eslint-disable-line
+	      geolocation.getLocation(showPosition, showErr);
 	    }
 	  }, {
 	    key: 'render',
@@ -53246,8 +53412,12 @@
 	  name: '刘伯伯爱玉冰',
 	  time: genRandomTime(),
 	  timeAddition: '星期天公休',
-	  pos: '新北市板桥区捷运江子翠站出口附近',
-	  dis: '300m',
+	  pos: '广州市越秀区珠江新城地铁站附近',
+	  geo: {
+	    lat: 23.119450,
+	    lng: 113.321218
+	  },
+	  dis: '700m',
 	  person: '刘伯伯',
 	  qrcode: 'images/qrcode.png',
 	  map: 'images/map.png',
@@ -53283,8 +53453,12 @@
 	  thumbnail: 'images/amo.jpg',
 	  name: '米粉汤阿嬷',
 	  time: genRandomTime(),
-	  pos: '新北市永和区文化路67巷（包公庙前）',
+	  pos: '广州市天河区花城大道',
 	  dis: '600m',
+	  geo: {
+	    lat: 23.119068,
+	    lng: 113.324704
+	  },
 	  person: '阿嬷',
 	  qrcode: 'images/qrcode.png',
 	  map: 'images/map.png',

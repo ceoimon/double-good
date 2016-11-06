@@ -10,6 +10,8 @@ import './stylus/index.styl';
 
 const rootElement = document.getElementById('root');
 
+ons.disableAutoStyling();
+
 ons.ready(() => render(
   <AppContainer>
     <App />
